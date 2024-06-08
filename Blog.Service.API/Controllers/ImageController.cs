@@ -46,7 +46,7 @@ namespace Blog.Service.API.Controllers
         /// </summary>
         /// <param name="id">The ID of the image.</param>
         /// <returns>The image with the specified ID.</returns>
-        [HttpGet("{id :int}")]
+        [HttpGet("{id }")]
         public async Task<IActionResult> GetImageByID(int id)
         {
             var result = await _imageService.GetByID(id);
@@ -59,7 +59,7 @@ namespace Blog.Service.API.Controllers
         /// <param name="imageID">The ID of the image to update.</param>
         /// <param name="imageRequest">The image data to update.</param>
         /// <returns>The result of the update operation.</returns>
-        [HttpPut("{imageID : int}")]
+        [HttpPut("{imageID }")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateImage(int imageID, [FromBody] ImageRequest imageRequest)
         {

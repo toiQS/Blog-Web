@@ -1,5 +1,6 @@
 ﻿using Blog.Service._image;
 using Blog_Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -45,7 +46,7 @@ namespace Blog.Service.API.Controllers
         /// </summary>
         /// <param name="id">The ID of the image.</param>
         /// <returns>The image with the specified ID.</returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id :int}")]
         public async Task<IActionResult> GetImageByID(int id)
         {
             var result = await _imageService.GetByID(id);
@@ -58,7 +59,8 @@ namespace Blog.Service.API.Controllers
         /// <param name="imageID">The ID of the image to update.</param>
         /// <param name="imageRequest">The image data to update.</param>
         /// <returns>The result of the update operation.</returns>
-        [HttpPut("{imageID}")]
+        [HttpPut("{imageID : int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateImage(int imageID, [FromBody] ImageRequest imageRequest)
         {
             var result = await _imageService.Update(imageID, imageRequest);

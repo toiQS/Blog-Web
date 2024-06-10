@@ -67,3 +67,7 @@
 - Entity Framework Core
 - Identity Framework
 - Jwt Bearer
+
+
+#akai
+#toiQS

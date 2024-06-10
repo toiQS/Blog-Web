@@ -42,9 +42,57 @@ namespace Blog.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PosterID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProfileID")
+                        .HasColumnType("int");
+
                     b.HasKey("ImageID");
 
+                    b.HasIndex("PosterID")
+                        .IsUnique()
+                        .HasFilter("[PosterID] IS NOT NULL");
+
+                    b.HasIndex("ProfileID")
+                        .IsUnique()
+                        .HasFilter("[ProfileID] IS NOT NULL");
+
                     b.ToTable("Images");
+
+                    b.HasData(
+                        new
+                        {
+                            ImageID = 1,
+                            ImageName = "Noname",
+                            ImageType = "Nothing",
+                            ImageUrl = "Nothing",
+                            PosterID = 1
+                        },
+                        new
+                        {
+                            ImageID = 2,
+                            ImageName = "Noname",
+                            ImageType = "Nothing",
+                            ImageUrl = "Nothing",
+                            PosterID = 2
+                        },
+                        new
+                        {
+                            ImageID = 3,
+                            ImageName = "Noname",
+                            ImageType = "Nothing",
+                            ImageUrl = "Nothing",
+                            PosterID = 3
+                        },
+                        new
+                        {
+                            ImageID = 4,
+                            ImageName = "Noname",
+                            ImageType = "Nothing",
+                            ImageUrl = "Nothing",
+                            ProfileID = 1
+                        });
                 });
 
             modelBuilder.Entity("Blog_Model.Poster", b =>
@@ -57,9 +105,6 @@ namespace Blog.Data.Migrations
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("ImagePosterImageID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Intro")
                         .IsRequired()
@@ -81,11 +126,94 @@ namespace Blog.Data.Migrations
 
                     b.HasKey("PosterID");
 
-                    b.HasIndex("ImagePosterImageID");
-
                     b.HasIndex("ThemeID");
 
                     b.ToTable("Posters");
+
+                    b.HasData(
+                        new
+                        {
+                            PosterID = 1,
+                            CreateAt = new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1092),
+                            Intro = "C# (đọc là “C-sharp”) là một ngôn ngữ lập trình hiện đại, đa năng và hướng đối tượng...",
+                            PosterContext = "Đặc Điểm Nổi Bật của C#...",
+                            ThemeID = 1,
+                            Title = "Lời nói đầu",
+                            UpdateAt = new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1104)
+                        },
+                        new
+                        {
+                            PosterID = 2,
+                            CreateAt = new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1106),
+                            Intro = "SQL (Structured Query Language) là ngôn ngữ truy vấn có cấu trúc...",
+                            PosterContext = "Đặc Điểm Nổi Bật của SQL...",
+                            ThemeID = 3,
+                            Title = "Lời nói đầu về Sql",
+                            UpdateAt = new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1107)
+                        },
+                        new
+                        {
+                            PosterID = 3,
+                            CreateAt = new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1108),
+                            Intro = "Windows Forms, thường được gọi là WinForms, là một framework của Microsoft...",
+                            PosterContext = "Đặc Điểm Nổi Bật của WinForms...",
+                            ThemeID = 2,
+                            Title = "Lời nói đầu về Winform",
+                            UpdateAt = new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1108)
+                        });
+                });
+
+            modelBuilder.Entity("Blog_Model.Profile", b =>
+                {
+                    b.Property<int>("ProfileID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfileID"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FaceBook")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reddit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProfileID");
+
+                    b.ToTable("Profiles");
+
+                    b.HasData(
+                        new
+                        {
+                            ProfileID = 1,
+                            Address = "District 4, Ho Chi Minh city",
+                            DateOfBirth = new DateTime(2002, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nguyensieu1212002@gmail.com",
+                            FaceBook = "facebook.com/toiQS",
+                            FullName = "Nguyễn Quốc Siêu",
+                            Phone = "0392828702",
+                            Reddit = "reddit.com/user/toiQS"
+                        });
                 });
 
             modelBuilder.Entity("Blog_Model.Theme", b =>
@@ -107,6 +235,26 @@ namespace Blog.Data.Migrations
                     b.HasKey("ThemeID");
 
                     b.ToTable("Themes");
+
+                    b.HasData(
+                        new
+                        {
+                            ThemeID = 1,
+                            Info = "Tổng hợp thông tin và các phiên bản cập nhật",
+                            ThemeName = "C#"
+                        },
+                        new
+                        {
+                            ThemeID = 2,
+                            Info = "Tổng hợp thông tin và các phiên bản cập nhật",
+                            ThemeName = "Winform"
+                        },
+                        new
+                        {
+                            ThemeID = 3,
+                            Info = "Tổng hợp thông tin và các phiên bản cập nhật",
+                            ThemeName = "SSMS (Sql Server Manager Studio)"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -307,19 +455,28 @@ namespace Blog.Data.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Blog_Model.Image", b =>
+                {
+                    b.HasOne("Blog_Model.Poster", "Poster")
+                        .WithOne("ImagePoster")
+                        .HasForeignKey("Blog_Model.Image", "PosterID");
+
+                    b.HasOne("Blog_Model.Profile", "Profile")
+                        .WithOne("ProfileImage")
+                        .HasForeignKey("Blog_Model.Image", "ProfileID");
+
+                    b.Navigation("Poster");
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("Blog_Model.Poster", b =>
                 {
-                    b.HasOne("Blog_Model.Image", "ImagePoster")
-                        .WithMany()
-                        .HasForeignKey("ImagePosterImageID");
-
                     b.HasOne("Blog_Model.Theme", "Theme")
                         .WithMany("Posters")
                         .HasForeignKey("ThemeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ImagePoster");
 
                     b.Navigation("Theme");
                 });
@@ -373,6 +530,16 @@ namespace Blog.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Blog_Model.Poster", b =>
+                {
+                    b.Navigation("ImagePoster");
+                });
+
+            modelBuilder.Entity("Blog_Model.Profile", b =>
+                {
+                    b.Navigation("ProfileImage");
                 });
 
             modelBuilder.Entity("Blog_Model.Theme", b =>

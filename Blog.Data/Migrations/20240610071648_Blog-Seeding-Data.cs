@@ -3,27 +3,33 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Blog.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class BlogAddingModels : Migration
+    public partial class BlogSeedingData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Images",
+                name: "Profiles",
                 columns: table => new
                 {
-                    ImageID = table.Column<int>(type: "int", nullable: false)
+                    ProfileID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FaceBook = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Reddit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Images", x => x.ImageID);
+                    table.PrimaryKey("PK_Profiles", x => x.ProfileID);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,7 +115,6 @@ namespace Blog.Data.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PosterContext = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Intro = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImagePosterImageID = table.Column<int>(type: "int", nullable: true),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ThemeID = table.Column<int>(type: "int", nullable: false)
@@ -117,11 +122,6 @@ namespace Blog.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posters", x => x.PosterID);
-                    table.ForeignKey(
-                        name: "FK_Posters_Images_ImagePosterImageID",
-                        column: x => x.ImagePosterImageID,
-                        principalTable: "Images",
-                        principalColumn: "ImageID");
                     table.ForeignKey(
                         name: "FK_Posters_Themes_ThemeID",
                         column: x => x.ThemeID,
@@ -215,10 +215,86 @@ namespace Blog.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Posters_ImagePosterImageID",
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    ImageID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfileID = table.Column<int>(type: "int", nullable: true),
+                    PosterID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.ImageID);
+                    table.ForeignKey(
+                        name: "FK_Images_Posters_PosterID",
+                        column: x => x.PosterID,
+                        principalTable: "Posters",
+                        principalColumn: "PosterID");
+                    table.ForeignKey(
+                        name: "FK_Images_Profiles_ProfileID",
+                        column: x => x.ProfileID,
+                        principalTable: "Profiles",
+                        principalColumn: "ProfileID");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Profiles",
+                columns: new[] { "ProfileID", "Address", "DateOfBirth", "Email", "FaceBook", "FullName", "Phone", "Reddit" },
+                values: new object[] { 1, "District 4, Ho Chi Minh city", new DateTime(2002, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "nguyensieu1212002@gmail.com", "facebook.com/toiQS", "Nguyễn Quốc Siêu", "0392828702", "reddit.com/user/toiQS" });
+
+            migrationBuilder.InsertData(
+                table: "Themes",
+                columns: new[] { "ThemeID", "Info", "ThemeName" },
+                values: new object[,]
+                {
+                    { 1, "Tổng hợp thông tin và các phiên bản cập nhật", "C#" },
+                    { 2, "Tổng hợp thông tin và các phiên bản cập nhật", "Winform" },
+                    { 3, "Tổng hợp thông tin và các phiên bản cập nhật", "SSMS (Sql Server Manager Studio)" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Images",
+                columns: new[] { "ImageID", "ImageName", "ImageType", "ImageUrl", "PosterID", "ProfileID" },
+                values: new object[] { 4, "Noname", "Nothing", "Nothing", null, 1 });
+
+            migrationBuilder.InsertData(
                 table: "Posters",
-                column: "ImagePosterImageID");
+                columns: new[] { "PosterID", "CreateAt", "Intro", "PosterContext", "ThemeID", "Title", "UpdateAt" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1092), "C# (đọc là “C-sharp”) là một ngôn ngữ lập trình hiện đại, đa năng và hướng đối tượng...", "Đặc Điểm Nổi Bật của C#...", 1, "Lời nói đầu", new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1104) },
+                    { 2, new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1106), "SQL (Structured Query Language) là ngôn ngữ truy vấn có cấu trúc...", "Đặc Điểm Nổi Bật của SQL...", 3, "Lời nói đầu về Sql", new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1107) },
+                    { 3, new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1108), "Windows Forms, thường được gọi là WinForms, là một framework của Microsoft...", "Đặc Điểm Nổi Bật của WinForms...", 2, "Lời nói đầu về Winform", new DateTime(2024, 6, 10, 14, 16, 48, 10, DateTimeKind.Local).AddTicks(1108) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Images",
+                columns: new[] { "ImageID", "ImageName", "ImageType", "ImageUrl", "PosterID", "ProfileID" },
+                values: new object[,]
+                {
+                    { 1, "Noname", "Nothing", "Nothing", 1, null },
+                    { 2, "Noname", "Nothing", "Nothing", 2, null },
+                    { 3, "Noname", "Nothing", "Nothing", 3, null }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_PosterID",
+                table: "Images",
+                column: "PosterID",
+                unique: true,
+                filter: "[PosterID] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_ProfileID",
+                table: "Images",
+                column: "ProfileID",
+                unique: true,
+                filter: "[ProfileID] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posters_ThemeID",
@@ -269,7 +345,7 @@ namespace Blog.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Posters");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
@@ -287,16 +363,19 @@ namespace Blog.Data.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Images");
+                name: "Posters");
 
             migrationBuilder.DropTable(
-                name: "Themes");
+                name: "Profiles");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Themes");
         }
     }
 }

@@ -53,6 +53,7 @@ namespace Blog_Model
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
         public int ThemeID { get; set; }
+        public ImageRequest? ImagePoster { get; set;}
       
     }
     public class PosterResponseDetail

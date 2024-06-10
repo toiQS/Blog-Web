@@ -193,6 +193,7 @@ namespace Blog.Service._poste
             try
             {
                 var existingPoster = await _context.Posters
+                    .Include(x => x.ImagePoster)
                     .FirstOrDefaultAsync(x => x.PosterID == posterID);
 
                 if (existingPoster == null)
@@ -204,6 +205,9 @@ namespace Blog.Service._poste
                 existingPoster.Title = poster.Title;
                 existingPoster.Intro = poster.Intro;
                 existingPoster.UpdateAt = DateTime.Now;
+                existingPoster.ImagePoster.ImageUrl = poster.ImagePoster.ImageUrl;
+                existingPoster.ImagePoster.ImageName = poster.ImagePoster.ImageName;
+                existingPoster.ImagePoster.ImageType = poster.ImagePoster.ImageType;
 
                 _context.Posters.Update(existingPoster);
                 await _context.SaveChangesAsync();

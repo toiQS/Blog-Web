@@ -15,8 +15,8 @@ namespace Blog.Service.API.Controllers
             _authService = authService;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterModel model)
+        [HttpPost("register-user")]
+        public async Task<IActionResult> RegisterUser(RegisterModel model)
         {
             var result = await _authService.RegisterUser(model);
             
@@ -26,12 +26,23 @@ namespace Blog.Service.API.Controllers
             }
             return BadRequest(new { Message = "User registration failed" });
         }
+        [HttpPost("register-admin")]
+        public async Task<IActionResult> RegisterAdmin(RegisterModel model)
+        {
+            var result = await _authService.RegisterAdmin(model);
+            
+            if (result)
+            {
+                return Ok(new { Message = "Admin registered successfully" });
+            }
+            return BadRequest(new { Message = "User registration failed" });
+        }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             var result = await _authService.LoginUser(loginModel);
-            var tokenString = _authService.GennerateTokenString(loginModel);
+            var tokenString = await  _authService.GennerateTokenString(loginModel);
             if (result)
             {
                 return Ok(new { Message = "Login successful", tokenString });

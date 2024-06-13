@@ -12,6 +12,7 @@ namespace Blog.Service._auth
         public Task<bool> RegisterUser(RegisterModel registeModel);
         public Task<bool> LoginUser(LoginModel loginModel);
         public Task LogOutUser();
-        public string GennerateTokenString(LoginModel loginModel);
+        public Task<string> GennerateTokenString(LoginModel loginModel);
+        public Task<bool> RegisterAdmin(RegisterModel registerModel);
     }
 }

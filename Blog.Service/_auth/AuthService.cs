@@ -28,8 +28,17 @@ namespace Blog.Service._auth
                 UserName = registerModel.UserName,
                 Email = registerModel.Email,
             };
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
-            return result.Succeeded;
+            try
+            {
+                var result = await _userManager.CreateAsync(user, registerModel.Password);
+                var resultAddToRoles = await _userManager.AddToRoleAsync(user, "Admin");
+                return result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                
+                throw new Exception(ex.ToString());
+            }
         }
 
         public async Task<bool> LoginUser(LoginModel loginModel)
@@ -47,12 +56,19 @@ namespace Blog.Service._auth
         {
             await _signInManager.SignOutAsync();
         }
-        public string GennerateTokenString(LoginModel loginModel)
+        public async Task<string> GennerateTokenString(LoginModel loginModel)
         {
+            var identityUser = await _userManager.FindByEmailAsync(loginModel.Email);
+            if (identityUser == null)
+            {
+                return "false";
+            }
+            var role = await _userManager.GetRolesAsync(identityUser);
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, loginModel.Email),
-                new Claim(ClaimTypes.Role,"Admin")
+                new Claim(ClaimTypes.Role, role[0])
             };
             SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:SecretKey").Value));
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);

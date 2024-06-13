@@ -31,6 +31,25 @@ namespace Blog.Service._auth
             try
             {
                 var result = await _userManager.CreateAsync(user, registerModel.Password);
+                var resultAddToRoles = await _userManager.AddToRoleAsync(user, "User");
+                return result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                
+                throw new Exception(ex.ToString());
+            }
+        }
+        public async Task<bool> RegisterAdmin(RegisterModel registerModel)
+        {
+            var user = new IdentityUser
+            {
+                UserName = registerModel.UserName,
+                Email = registerModel.Email,
+            };
+            try
+            {
+                var result = await _userManager.CreateAsync(user, registerModel.Password);
                 var resultAddToRoles = await _userManager.AddToRoleAsync(user, "Admin");
                 return result.Succeeded;
             }

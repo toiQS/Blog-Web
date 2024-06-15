@@ -59,7 +59,7 @@ namespace Blog.Service._auth
                 throw new Exception(ex.ToString());
             }
         }
-
+        
         public async Task<bool> LoginUser(LoginModel loginModel)
         {
             var identityUser = await _userManager.FindByEmailAsync(loginModel.Email);
@@ -73,6 +73,7 @@ namespace Blog.Service._auth
         }
         public async Task LogOutUser()
         {
+            ClearTemporaryMemory();
             await _signInManager.SignOutAsync();
         }
         public async Task<string> GennerateTokenString(LoginModel loginModel)
@@ -99,6 +100,55 @@ namespace Blog.Service._auth
                 signingCredentials: signingCredentials);
             var tokenString = new JwtSecurityTokenHandler().WriteToken(security);
             return tokenString;
+        }
+        public async Task<ServiceResult<UserDetai>> GetUserDetail(string email)
+        {
+            try
+            {
+                var identityUser = await _userManager.FindByEmailAsync(email);
+                if (identityUser == null)
+                {
+                    throw new Exception();
+                }
+                var user = new UserDetai
+                {
+                    Email = identityUser.Email,
+                    UserID = identityUser.Id,
+                    UserName = identityUser.UserName
+                };
+                await CreateTemporaryMemoryAsync(user.Email);
+                return ServiceResult<UserDetai>.SuccessResult(user);
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<UserDetai>.FailedResult(ex.Message);
+            }
+
+        }
+        public async Task CreateTemporaryMemoryAsync( string email)
+        {
+            try
+            {
+                string filePath = @"F:\Repo\Local\Blog-Web\Blog.Service\_auth\Memory.txt";
+                await File.AppendAllTextAsync(filePath , email);
+            }
+            catch (Exception ex)
+            {
+                // Handle or log the exception
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+        public void ClearTemporaryMemory()
+        {
+            try
+            {
+                string filePath = @"F:\Repo\Local\Blog-Web\Blog.Service\_auth\Memory.txt";
+                File.Delete(filePath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

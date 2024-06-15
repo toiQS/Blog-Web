@@ -15,6 +15,7 @@ namespace Blog.Data
         public DbSet<Poster> Posters { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

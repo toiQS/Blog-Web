@@ -42,10 +42,12 @@ namespace Blog.Service.API.Controllers
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             var result = await _authService.LoginUser(loginModel);
-            var tokenString = await  _authService.GennerateTokenString(loginModel);
+            var tokenString = await _authService.GennerateTokenString(loginModel);
+            var detail = await _authService.GetUserDetail(loginModel.Email);
+            
             if (result)
             {
-                return Ok(new { Message = "Login successful", tokenString });
+                return Ok(new { Message = "Login successful", tokenString, detail });
             }
             return Unauthorized(new { Message = "Invalid email or password" });
         }

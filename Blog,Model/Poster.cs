@@ -21,6 +21,10 @@ namespace Blog_Model
         [ForeignKey(nameof(Theme))]
         public int ThemeID { get; set; }
         public virtual Theme? Theme { get; set; }
+
+        public string UserID { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public List<Comment> CommentList { get; set; } = new List<Comment>();
     }
     public class PosterRequest
     {
@@ -31,18 +35,8 @@ namespace Blog_Model
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
         public int ThemeID { get; set; }
-      
-    }
-    public class PosterRequestOnView
-    {
-        public string Title { get; set; } = string.Empty;
-        public string PosterContext { get; set; } = string.Empty;
-        public string Intro { get; set; } = string.Empty;
-        public ImageRequest? ImagePoster { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime UpdateAt { get; set; }
-        public int ThemeID { get; set; }
-      
+        
+
     }
     public class PosterRequestUpdate
     {
@@ -53,6 +47,7 @@ namespace Blog_Model
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
         public int ThemeID { get; set; }
+        public string UserName { get; set; } = string.Empty;
         public ImageRequest? ImagePoster { get; set;}
       
     }
@@ -64,6 +59,7 @@ namespace Blog_Model
         public ImageResponse? ImagePoster { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
+        public string UserName { get; set; } = string.Empty;
         public int ThemeID { get; set; }
     }
 
@@ -74,6 +70,6 @@ namespace Blog_Model
         public string Intro { get; set; } = string.Empty;
         public ImageResponse? ImagePoster { get; set; }
         public DateTime UpdateAt { get; set; }
-
+        public string UserName { get; set; } = string.Empty;
     }
 }

@@ -1,6 +1,6 @@
 using Blog.Data;
 using Blog.Service._auth;
-using Blog.Service._poste;
+using Blog.Service._poster;
 using Blog.Service._profile;
 using Blog.Service._theme;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

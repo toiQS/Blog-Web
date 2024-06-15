@@ -17,9 +17,11 @@ namespace Blog_Model
         public string ImageType { get; set; } = string.Empty;
         public int? ProfileID { get; set; }
         public int? PosterID { get; set; }
+        public int? CommentID { get; set; }
 
         public virtual Profile? Profile { get; set; }
         public virtual Poster? Poster { get; set; }
+        public virtual Comment? Comment { get; set;}
 
     }
     public class ImageRequest

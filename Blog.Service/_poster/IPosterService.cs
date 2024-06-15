@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blog.Service._poste
+namespace Blog.Service._poster
 {
     public interface IPosterService
     {

@@ -13,10 +13,17 @@ namespace Blog_Model
     {
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-    }public class RegisterModel
+    }
+    public class RegisterModel
     {
         public string UserName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string Email {  get; set; } = string.Empty;
+    }
+    public class UserDetai
+    {
+        public string Email { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string UserID { get; set; } = string.Empty;
     }
 }

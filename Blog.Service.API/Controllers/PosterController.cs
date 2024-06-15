@@ -1,4 +1,4 @@
-﻿using Blog.Service._poste;
+﻿using Blog.Service._poster;
 using Blog_Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -66,7 +66,7 @@ namespace Blog.Service.API.Controllers
         /// <returns>A boolean indicating success or failure.</returns>
         [HttpPost]
         [Route("Create")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> AddPoster([FromBody] PosterRequest poster)
         {
             var result = await _posterService.Create(poster);
@@ -81,7 +81,7 @@ namespace Blog.Service.API.Controllers
         /// <returns>A boolean indicating success or failure.</returns>
         [HttpPut]
         [Route("Update/{posterID:int}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> UpdatePoster(int posterID, [FromBody] PosterRequestUpdate poster)
         {
             var result = await _posterService.Update(posterID, poster);
@@ -95,7 +95,7 @@ namespace Blog.Service.API.Controllers
         /// <returns>A boolean indicating success or failure.</returns>
         [HttpDelete]
         [Route("Delete/{posterID:int}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> DelPoster(int posterID)
         {
             var result = await _posterService.Delete(posterID);

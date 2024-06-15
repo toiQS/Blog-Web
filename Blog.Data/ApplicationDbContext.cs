@@ -62,7 +62,11 @@ namespace Blog.Data
                     Intro = "C# (đọc là “C-sharp”) là một ngôn ngữ lập trình hiện đại, đa năng và hướng đối tượng...",
                     PosterContext = "Đặc Điểm Nổi Bật của C#...",
                     CreateAt = DateTime.Now,
-                    UpdateAt = DateTime.Now
+                    UpdateAt = DateTime.Now,
+                    CommentList = new List<Comment>(),
+                    UserID = "user-default",
+                    UserName = "Admin"
+
                 },
                 new Poster
                 {
@@ -72,7 +76,10 @@ namespace Blog.Data
                     Intro = "SQL (Structured Query Language) là ngôn ngữ truy vấn có cấu trúc...",
                     PosterContext = "Đặc Điểm Nổi Bật của SQL...",
                     CreateAt = DateTime.Now,
-                    UpdateAt = DateTime.Now
+                    UpdateAt = DateTime.Now,
+                    CommentList = new List<Comment>(),
+                    UserID = "user-default",
+                    UserName = "Admin"
                 },
                 new Poster
                 {
@@ -82,7 +89,10 @@ namespace Blog.Data
                     Intro = "Windows Forms, thường được gọi là WinForms, là một framework của Microsoft...",
                     PosterContext = "Đặc Điểm Nổi Bật của WinForms...",
                     CreateAt = DateTime.Now,
-                    UpdateAt = DateTime.Now
+                    UpdateAt = DateTime.Now,
+                    CommentList = new List<Comment>(),
+                    UserID = "user-default",
+                    UserName = "Admin"
                 });
 
             // Seed data for Profile
@@ -137,6 +147,7 @@ namespace Blog.Data
                     PosterID = null, // Not associated with a Poster
                     ProfileID = 1 // Valid ProfileID
                 });
+
 
             // Optionally set the navigation properties if needed
             builder.Entity<Poster>().HasOne(p => p.ImagePoster).WithOne(i => i.Poster).HasForeignKey<Image>(i => i.PosterID);

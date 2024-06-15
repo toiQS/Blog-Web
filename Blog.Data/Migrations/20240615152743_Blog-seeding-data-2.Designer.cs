@@ -4,6 +4,7 @@ using Blog.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240615152743_Blog-seeding-data-2")]
+    partial class Blogseedingdata2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,38 +185,38 @@ namespace Blog.Data.Migrations
                         new
                         {
                             PosterID = 1,
-                            CreateAt = new DateTime(2024, 6, 15, 22, 56, 29, 596, DateTimeKind.Local).AddTicks(9846),
+                            CreateAt = new DateTime(2024, 6, 15, 22, 27, 42, 549, DateTimeKind.Local).AddTicks(4864),
                             Intro = "C# (đọc là “C-sharp”) là một ngôn ngữ lập trình hiện đại, đa năng và hướng đối tượng...",
                             PosterContext = "Đặc Điểm Nổi Bật của C#...",
                             ThemeID = 1,
                             Title = "Lời nói đầu",
-                            UpdateAt = new DateTime(2024, 6, 15, 22, 56, 29, 596, DateTimeKind.Local).AddTicks(9863),
-                            UserID = "user-default",
-                            UserName = "Admin"
+                            UpdateAt = new DateTime(2024, 6, 15, 22, 27, 42, 549, DateTimeKind.Local).AddTicks(4882),
+                            UserID = "",
+                            UserName = ""
                         },
                         new
                         {
                             PosterID = 2,
-                            CreateAt = new DateTime(2024, 6, 15, 22, 56, 29, 596, DateTimeKind.Local).AddTicks(9866),
+                            CreateAt = new DateTime(2024, 6, 15, 22, 27, 42, 549, DateTimeKind.Local).AddTicks(4886),
                             Intro = "SQL (Structured Query Language) là ngôn ngữ truy vấn có cấu trúc...",
                             PosterContext = "Đặc Điểm Nổi Bật của SQL...",
                             ThemeID = 3,
                             Title = "Lời nói đầu về Sql",
-                            UpdateAt = new DateTime(2024, 6, 15, 22, 56, 29, 596, DateTimeKind.Local).AddTicks(9867),
-                            UserID = "user-default",
-                            UserName = "Admin"
+                            UpdateAt = new DateTime(2024, 6, 15, 22, 27, 42, 549, DateTimeKind.Local).AddTicks(4887),
+                            UserID = "",
+                            UserName = ""
                         },
                         new
                         {
                             PosterID = 3,
-                            CreateAt = new DateTime(2024, 6, 15, 22, 56, 29, 596, DateTimeKind.Local).AddTicks(9870),
+                            CreateAt = new DateTime(2024, 6, 15, 22, 27, 42, 549, DateTimeKind.Local).AddTicks(4888),
                             Intro = "Windows Forms, thường được gọi là WinForms, là một framework của Microsoft...",
                             PosterContext = "Đặc Điểm Nổi Bật của WinForms...",
                             ThemeID = 2,
                             Title = "Lời nói đầu về Winform",
-                            UpdateAt = new DateTime(2024, 6, 15, 22, 56, 29, 596, DateTimeKind.Local).AddTicks(9870),
-                            UserID = "user-default",
-                            UserName = "Admin"
+                            UpdateAt = new DateTime(2024, 6, 15, 22, 27, 42, 549, DateTimeKind.Local).AddTicks(4889),
+                            UserID = "",
+                            UserName = ""
                         });
                 });
 

@@ -52,7 +52,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<IPosterService, PosterService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
-//builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 builder.Services.AddControllers();
 
@@ -96,5 +96,29 @@ using (var scope = app.Services.CreateScope())
 
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var email = "admin@admin.com";
+    var name = "Admin";
+    var password = "Admin@1234";
+    try
+    {
+        var identityUser = new IdentityUser
+        {
+            Id = "user-default",
+            UserName = name,
+            Email = email,
+            EmailConfirmed = false,
+        };
+        await userManager.CreateAsync(identityUser, password);
+        await userManager.AddToRoleAsync(identityUser, "Admin");
+    }
+    catch(Exception ex)
+    {
+        Console.WriteLine(ex.ToString());
+        Console.WriteLine(ex.StackTrace.ReplaceLineEndings());
+    }
+}
 
 app.Run();

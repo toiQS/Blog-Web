@@ -14,6 +14,6 @@ namespace Blog.Service._auth
         public Task LogOutUser();
         public Task<string> GennerateTokenString(LoginModel loginModel);
         public Task<bool> RegisterAdmin(RegisterModel registerModel);
-        public Task<ServiceResult<UserDetai>> GetUserDetail(string email);
+        public Task<ServiceResult<UserDetail>> GetUserDetail(string email);
     }
 }

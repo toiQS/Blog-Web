@@ -320,7 +320,11 @@ namespace Blog.Service._comment
 
             try
             {
-                var comment = await _context.Comments.FindAsync(id);
+                var comment = await _context.Comments.
+                    Where(x => x.CommentID == id)
+                    .Include(x => x.CommentImage)
+                    .Include(x => x.Comments)
+                    .FirstOrDefaultAsync();
                 if (comment == null)
                     return ServiceResult<bool>.FailedResult("Comment not found.");
                 if(comment.UserID != identityUser.Id) return ServiceResult<bool>.FailedResult("Not authorized to update this comment.");

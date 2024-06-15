@@ -66,7 +66,7 @@ namespace Blog.Service.API.Controllers
         /// <returns>A boolean indicating success or failure.</returns>
         [HttpPost]
         [Route("Create")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddPoster([FromBody] PosterRequest poster)
         {
             var result = await _posterService.Create(poster);

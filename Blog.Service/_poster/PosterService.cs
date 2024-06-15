@@ -15,6 +15,7 @@ namespace Blog.Service._poster
         private readonly ApplicationDbContext _context;
         private readonly ILogger<PosterService> _logger;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly string filePath = @"F:\Repo\Local\Blog-Web\Blog.Service\_auth\Memory.txt";
 
         public PosterService(ApplicationDbContext context, ILogger<PosterService> logger, UserManager<IdentityUser> userManager)
         {
@@ -32,7 +33,7 @@ namespace Blog.Service._poster
             try
             {
                 var posters = await _context.Posters
-                    .AsNoTracking()
+                   
                     .Select(x => new PosterResponse
                     {
                         Intro = x.Intro,
@@ -73,7 +74,6 @@ namespace Blog.Service._poster
             try
             {
                 var posters = await _context.Posters
-                    .AsNoTracking()
                     .Where(x => x.Title.ToLower().Contains(text.ToLower()))
                     .Select(x => new PosterResponse
                     {
@@ -115,7 +115,7 @@ namespace Blog.Service._poster
             try
             {
                 var poster = await _context.Posters
-                    .AsNoTracking()
+                  
                     .Where(x => x.PosterID == posterID)
                     .Select(x => new PosterResponseDetail
                     {
@@ -159,7 +159,7 @@ namespace Blog.Service._poster
             try
             {
                 // Ensure the method of retrieving user key is secure and correct
-                var getKey = File.ReadAllText("F:\\Repo\\Local\\Blog-Web\\Blog.Service\\_auth\\Memory.txt");
+                var getKey = File.ReadAllText(filePath);
                 var identityUser = await _userManager.FindByEmailAsync(getKey);
                 
                 if (identityUser == null)
@@ -212,7 +212,12 @@ namespace Blog.Service._poster
             try
             {
                 // Replace with your actual method of retrieving user key
-                var getKey = File.ReadAllText("F:\\Repo\\Local\\Blog-Web\\Blog.Service\\_auth\\Memory.txt");
+                var getKey = File.ReadAllText(filePath);
+                var identityUser = await _userManager.FindByEmailAsync(getKey);
+
+                if (identityUser == null)
+                    return ServiceResult<bool>.FailedResult("User not found.");
+
                 var existingPoster = await _context.Posters
                     .Include(x => x.ImagePoster)
                     .FirstOrDefaultAsync(x => x.PosterID == posterID);
@@ -220,7 +225,7 @@ namespace Blog.Service._poster
                 if (existingPoster == null)
                     return ServiceResult<bool>.FailedResult("Poster not found.");
 
-                if (existingPoster.UserID != getKey)
+                if (existingPoster.UserID != identityUser.Id)
                     return ServiceResult<bool>.FailedResult("Not authorized to update this poster.");
 
                 // Update properties if they are different
@@ -262,7 +267,12 @@ namespace Blog.Service._poster
             try
             {
                 // Replace with your actual method of retrieving user key
-                var getKey = File.ReadAllText("F:\\Repo\\Local\\Blog-Web\\Blog.Service\\_auth\\Memory.txt");
+                var getKey = File.ReadAllText(filePath);
+                var identityUser = await _userManager.FindByEmailAsync(getKey);
+
+                if (identityUser == null)
+                    return ServiceResult<bool>.FailedResult("User not found.");
+
                 var poster = await _context.Posters
                     .Include(x => x.ImagePoster)
                     .FirstOrDefaultAsync(x => x.PosterID == posterID);
@@ -270,7 +280,7 @@ namespace Blog.Service._poster
                 if (poster == null)
                     return ServiceResult<bool>.FailedResult("Poster not found.");
 
-                if (poster.UserID != getKey)
+                if (poster.UserID != identityUser.Id)
                     return ServiceResult<bool>.FailedResult("Not authorized to delete this poster.");
 
                 _context.Posters.Remove(poster);

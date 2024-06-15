@@ -32,14 +32,6 @@ namespace Blog_Model
         public string ImageType { get; set; } = string.Empty;
     
     }
-    public class ImageRequestOnView
-    {
-
-        public string ImageName { get; set; } = string.Empty;
-        public IFormFile? ImageUrl { get; set; }
-        public string ImageType { get; set; } = string.Empty;
-
-    }
     public class ImageResponse
     {
         public int ImageID { get; set; }

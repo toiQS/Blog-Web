@@ -39,12 +39,12 @@ namespace Blog.Service._poster
                         PosterID = x.PosterID,
                         Title = x.Title,
                         UpdateAt = x.UpdateAt,
-                        ImagePoster = new ImageResponse
+                        ImagePoster = x.ImagePoster != null ? new ImageResponse
                         {
                             ImageName = x.ImagePoster.ImageName,
                             ImageUrl = x.ImagePoster.ImageUrl,
                             ImageID = x.ImagePoster.ImageID,
-                        },
+                        } : null,
                         UserName = x.UserName
                     })
                     .ToListAsync();
@@ -81,12 +81,12 @@ namespace Blog.Service._poster
                         PosterID = x.PosterID,
                         Title = x.Title,
                         UpdateAt = x.UpdateAt,
-                        ImagePoster = new ImageResponse
+                        ImagePoster = x.ImagePoster != null ? new ImageResponse
                         {
                             ImageName = x.ImagePoster.ImageName,
                             ImageUrl = x.ImagePoster.ImageUrl,
                             ImageID = x.ImagePoster.ImageID,
-                        },
+                        } : null,
                         UserName = x.UserName
                     })
                     .ToListAsync();
@@ -123,12 +123,12 @@ namespace Blog.Service._poster
                         PosterContext = x.PosterContext,
                         Title = x.Title,
                         UpdateAt = x.UpdateAt,
-                        ImagePoster = new ImageResponse
+                        ImagePoster = x.ImagePoster != null ? new ImageResponse
                         {
                             ImageName = x.ImagePoster.ImageName,
                             ImageUrl = x.ImagePoster.ImageUrl,
                             ImageID = x.ImagePoster.ImageID,
-                        },
+                        } : null,
                         CreateAt = x.CreateAt,
                         ThemeID = x.ThemeID,
                         UserName = x.UserName
@@ -154,14 +154,16 @@ namespace Blog.Service._poster
         public async Task<ServiceResult<bool>> Create(PosterRequest poster)
         {
             if (poster == null)
-                throw new ArgumentNullException(nameof(poster));
+                return ServiceResult<bool>.FailedResult("Poster request cannot be null.");
 
             try
             {
+                // Ensure the method of retrieving user key is secure and correct
                 var getKey = File.ReadAllText("F:\\Repo\\Local\\Blog-Web\\Blog.Service\\_auth\\Memory.txt");
                 var identityUser = await _userManager.FindByEmailAsync(getKey);
+                
                 if (identityUser == null)
-                    throw new Exception("User not found.");
+                    return ServiceResult<bool>.FailedResult("User not found.");
 
                 var newPoster = new Poster
                 {
@@ -171,12 +173,12 @@ namespace Blog.Service._poster
                     UpdateAt = poster.UpdateAt,
                     CreateAt = poster.CreateAt,
                     ThemeID = poster.ThemeID,
-                    ImagePoster = new Image
+                    ImagePoster = poster.ImagePoster != null ? new Image
                     {
                         ImageType = poster.ImagePoster.ImageType,
                         ImageName = poster.ImagePoster.ImageName,
                         ImageUrl = poster.ImagePoster.ImageUrl,
-                    },
+                    } : null,
                     UserID = identityUser.Id,
                     UserName = identityUser.UserName
                 };
@@ -188,10 +190,11 @@ namespace Blog.Service._poster
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating new poster.");
-                return ServiceResult<bool>.FailedResult("An error occurred while creating the poster.");
+                _logger.LogError(ex, $"Error creating new poster: {ex.Message}");
+                return ServiceResult<bool>.FailedResult($"An error occurred while creating the poster. Details: {ex.Message}");
             }
         }
+
 
         /// <summary>
         /// Updates an existing poster.
@@ -208,6 +211,7 @@ namespace Blog.Service._poster
 
             try
             {
+                // Replace with your actual method of retrieving user key
                 var getKey = File.ReadAllText("F:\\Repo\\Local\\Blog-Web\\Blog.Service\\_auth\\Memory.txt");
                 var existingPoster = await _context.Posters
                     .Include(x => x.ImagePoster)
@@ -225,9 +229,13 @@ namespace Blog.Service._poster
                 existingPoster.Title = poster.Title;
                 existingPoster.Intro = poster.Intro;
                 existingPoster.UpdateAt = DateTime.Now;
-                existingPoster.ImagePoster.ImageUrl = poster.ImagePoster.ImageUrl;
-                existingPoster.ImagePoster.ImageName = poster.ImagePoster.ImageName;
-                existingPoster.ImagePoster.ImageType = poster.ImagePoster.ImageType;
+
+                if (existingPoster.ImagePoster != null && poster.ImagePoster != null)
+                {
+                    existingPoster.ImagePoster.ImageUrl = poster.ImagePoster.ImageUrl;
+                    existingPoster.ImagePoster.ImageName = poster.ImagePoster.ImageName;
+                    existingPoster.ImagePoster.ImageType = poster.ImagePoster.ImageType;
+                }
 
                 _context.Posters.Update(existingPoster);
                 await _context.SaveChangesAsync();
@@ -253,6 +261,7 @@ namespace Blog.Service._poster
 
             try
             {
+                // Replace with your actual method of retrieving user key
                 var getKey = File.ReadAllText("F:\\Repo\\Local\\Blog-Web\\Blog.Service\\_auth\\Memory.txt");
                 var poster = await _context.Posters
                     .Include(x => x.ImagePoster)

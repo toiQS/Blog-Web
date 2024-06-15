@@ -13,6 +13,7 @@ namespace Blog.Service._auth
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
+        string filePath = @"F:\Repo\Local\Blog-Web\Blog.Service\_auth\Memory.txt";
 
         public AuthService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
         {
@@ -129,7 +130,8 @@ namespace Blog.Service._auth
         {
             try
             {
-                string filePath = @"F:\Repo\Local\Blog-Web\Blog.Service\_auth\Memory.txt";
+                
+                File.Delete(filePath);
                 await File.AppendAllTextAsync(filePath , email);
             }
             catch (Exception ex)
@@ -142,7 +144,7 @@ namespace Blog.Service._auth
         {
             try
             {
-                string filePath = @"F:\Repo\Local\Blog-Web\Blog.Service\_auth\Memory.txt";
+                
                 File.Delete(filePath);
             }
             catch (Exception ex)

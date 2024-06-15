@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog_Model
 {
@@ -13,7 +10,6 @@ namespace Blog_Model
         public string Title { get; set; } = string.Empty;
         public string PosterContext { get; set; } = string.Empty;
         public string Intro { get; set; } = string.Empty;
-
         public Image? ImagePoster { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
@@ -26,6 +22,7 @@ namespace Blog_Model
         public string UserName { get; set; } = string.Empty;
         public List<Comment> CommentList { get; set; } = new List<Comment>();
     }
+
     public class PosterRequest
     {
         public string Title { get; set; } = string.Empty;
@@ -35,22 +32,20 @@ namespace Blog_Model
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
         public int ThemeID { get; set; }
-        
-
     }
+
     public class PosterRequestUpdate
     {
         public string Title { get; set; } = string.Empty;
         public string PosterContext { get; set; } = string.Empty;
         public string Intro { get; set; } = string.Empty;
-        
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
         public int ThemeID { get; set; }
         public string UserName { get; set; } = string.Empty;
-        public ImageRequest? ImagePoster { get; set;}
-      
+        public ImageRequest? ImagePoster { get; set; }
     }
+
     public class PosterResponseDetail
     {
         public string Title { get; set; } = string.Empty;

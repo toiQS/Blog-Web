@@ -103,6 +103,7 @@ The project is designed to be easily extensible and customizable, allowing devel
 - Entity Framework Core
 - Identity Framework
 - Jwt Bearer
+- Asp.net
 
 
 #akai

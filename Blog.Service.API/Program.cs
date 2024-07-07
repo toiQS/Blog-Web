@@ -1,6 +1,7 @@
 using Blog.Data;
 using Blog.Service._auth;
 using Blog.Service._comment;
+using Blog.Service._image;
 using Blog.Service._poster;
 using Blog.Service._profile;
 using Blog.Service._theme;
@@ -53,6 +54,7 @@ builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<IPosterService, PosterService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddControllers();
 

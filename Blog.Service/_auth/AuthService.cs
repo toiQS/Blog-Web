@@ -101,7 +101,7 @@ namespace Blog.Service._auth
             {
                 return false;
             }
-
+            await CreateTemporaryMemoryAsync(loginModel.Email);
             var result = await _signInManager.CheckPasswordSignInAsync(identityUser, loginModel.Password, false);
             return result.Succeeded;
         }

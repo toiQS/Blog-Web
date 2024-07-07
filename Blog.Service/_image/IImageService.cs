@@ -11,7 +11,7 @@ namespace Blog.Service._image
     {
         public Task<ServiceResult<IEnumerable<ImageResponse>>> GetAll();
         public Task<ServiceResult<IEnumerable<ImageResponse>>> GetByName(string name);
-        public Task<ServiceResult<ImageResponse>> GetByID(int imageID);
+        public Task<ServiceResult<ImageResponseDetail>> GetByID(int imageID);
         public Task<ServiceResult<bool>> Update(int imageID, ImageRequest image);
     }
 }

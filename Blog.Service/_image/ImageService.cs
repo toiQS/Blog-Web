@@ -12,7 +12,7 @@ namespace Blog.Service._image
     /// <summary>
     /// Service class for handling image-related operations.
     /// </summary>
-    public class ImageService
+    public class ImageService : IImageService
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<ImageService> _logger;

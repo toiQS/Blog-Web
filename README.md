@@ -1,7 +1,7 @@
 # Blog Web API
 ## Project Introduction
 
-**Blog-Web** is an open-source project that provides a comprehensive API for blog applications. The project leverages Entity Framework Core for database management, Identity Framework for user management and authentication, and JWT (JSON Web Token) for authentication and authorization. These technologies collectively offer a complete solution for building secure and feature-rich blog applications.
+**Blog-Web** is an open source project that provides an API. The project leverages Entity Framework Core for database management, Identity Framework for user management and authentication, and JWT (JSON Web Token) for authentication and authorization.
 
 ## Problem Statement
 
